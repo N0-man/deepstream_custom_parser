@@ -6,7 +6,6 @@ RUN apt-get update && \
     apt-get install -y \
         vim \
         wget \
-        redis-server \
         zip \
         python3-pip \
         python3-venv \
@@ -25,7 +24,6 @@ RUN apt-get update && \
         m4 \
         autoconf \
         automake \
-        libgirepository-2.0-dev \
         libcairo2-dev \
         libgstrtspserver-1.0-0 \
         gstreamer1.0-rtsp \
@@ -55,26 +53,23 @@ RUN pip install \
         pycairo \
         requests \
         redis \
-        PyGObject \
         opencv-python \
         ffmpeg-python \
         cuda-python==12.8.0 \
         ipyleaflet==0.17.4 \
         ipywidgets==8.0.7 \
-        widgetsnbextension==4.0.8 \
-        jupyterlab-widgets \
-        jupyter_contrib_nbextensions \
-        notebook==6.1.5 && \
+        jupyterlab-widgets 
 
-# Install pyds
+# Install pyds from NVIDIA AI IOT GitHub releases
 ARG PYDS_VER=1.2.2
 RUN python3 -m pip install --no-cache-dir \
   "https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/releases/download/v${PYDS_VER}/pyds-${PYDS_VER}-cp312-cp312-linux_x86_64.whl"
 
-RUN /opt/nvidia/deepstream/deepstream-8.0/install.sh
 RUN /opt/nvidia/deepstream/deepstream-8.0/user_additional_install.sh
-RUN /opt/nvidia/deepstream/deepstream-8.0/user_deepstream_python_apps_install.sh
 
-RUN chown -R 1000:1000 /opt/nvidia/deepstream/deepstream-8.0 /home/ubuntu /etc/apt /tmp/uv-cache /var
+RUN git clone https://github.com/NVIDIA-AI-IOT/deepstream_python_apps.git \
+    /opt/nvidia/deepstream/deepstream/samples/deepstream_python_apps
 
-CMD ["python3", "-m", "jupyterhub.singleuser", "--port=8888"]
+RUN chown -R 1000:1000 /opt/nvidia/deepstream/deepstream-8.0
+
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--ServerApp.token=", "--ServerApp.password="]

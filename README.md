@@ -1,7 +1,7 @@
-### Build and Run Container
+### Build image and and run container (tested locally on RTX 5090)
 
 ```
-bash run_with_jupiter.sh
+bash run_with_jupyter.sh
 ```
 
 ### Exec into the container
@@ -10,25 +10,29 @@ bash run_with_jupiter.sh
 docker exec -it f3d0b83e80c3 bash
 ```
 
-### This is not requried, keep it as a last resort if nothing works
+### Kill all containers
 
 ```
-./opt/nvidia/deepstream/deepstream/user_additional_install.sh
+bash kill.sh
 ```
 
-(takes about 12-15 mins)
-
-### Install python apps (this installs pyds)
+### publish to docker hub
 
 ```
-./user_deepstream_python_apps_install.sh --version master
+docker login
+
+docker push n0man/nvidia-deepstream:8.0-triton-multiarch-jupyter
 ```
 
-### give access to python apps to allow changes from outside the container
+### test the application
 
 ```
-chmod -R 777 deepstream_python_apps
+cd /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/apps/deepstream-test1
+
+python3 deepstream_test_1.py /opt/nvidia/deepstream/deepstream/samples/streams/sample_qHD.h264
 ```
+
+### Further analysis
 
 #### Confirm the DeepStream GStreamer plugin files exist
 
@@ -40,31 +44,7 @@ gst-inspect-1.0 nvinfer
 
 If you don’t see it, you’re likely in a container variant that doesn’t include the full DS GStreamer plugin set (wrong tag / incomplete install).
 
-### Run the application
-
-```
-cd /opt/nvidia/deepstream/deepstream/sources/deepstream_python_apps/apps/deepstream-test1
-
-python3 deepstream_test_1.py /opt/nvidia/deepstream/deepstream/samples/streams/sample_qHD.h264
-```
-
-### Further analysis
-
-1. for pyds install bindings
-   https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/bindings
-
-2. change the dockerfile to not install Jupiterlab, but install it
-
-...
-python3 -m pip install --upgrade pip python3 -m pip install jupyterlab
-jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --ServerApp.token='' --ServerApp.password=''
-'''
-
-http://127.0.0.4:8889/Lab
-
----
-
-Notes:
+#### Notes
 
 - dont point to pyds folder, its not the true python bindings
 - dont do pip3 install pyds - taht is not deepstream python bindings
@@ -89,5 +69,3 @@ export LD_LIBRARY_PATH=/opt/nvidia/deepstream/deepstream/lib:$LD_LIBRARY_PATH
 export GST_PLUGIN_PATH=/opt/nvidia/deepstream/deepstream/lib/gst-plugins:$GST_PLUGIN_PATH
 
 gst-inspect-1.0 nvinfer
-
-docker push n0man/nvidia-deepstream:8.0-triton-multiarch-jupiter
