@@ -72,4 +72,12 @@ RUN git clone https://github.com/NVIDIA-AI-IOT/deepstream_python_apps.git \
 
 RUN chown -R 1000:1000 /opt/nvidia/deepstream/deepstream-8.0
 
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--ServerApp.token=", "--ServerApp.password="]
+# CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--ServerApp.token=", "--ServerApp.password="]
+CMD ["jupyter","lab", \
+     "--ip=0.0.0.0","--port=8888", \
+     "--no-browser","--allow-root", \
+     "--ServerApp.token=","--ServerApp.password=", \
+     "--ServerApp.trust_xheaders=True", \
+     "--ServerApp.allow_remote_access=True", \
+     "--ServerApp.allow_origin=*", \
+     "--ServerApp.disable_check_xsrf=True"]
