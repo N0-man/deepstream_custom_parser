@@ -1,0 +1,17 @@
+FROM nvcr.io/nvidia/deepstream:8.0-triton-multiarch
+
+RUN apt-get update && apt-get install -y \
+    vim \
+    wget \
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Jupyter Notebook
+RUN pip3 install --no-cache-dir jupyterlab \
+&& apt-get clean
+
+# Expose port for Jupyter
+EXPOSE 8888
+
+# Default command: start Jupyter
+CMD ["jupyter-lab", "--allow-root", "--NotebookApp.token=", "--ip=0.0.0.0", "--NotebookApp.base_url=/notebook/"]
