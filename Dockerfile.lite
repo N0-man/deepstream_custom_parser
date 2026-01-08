@@ -13,5 +13,5 @@ RUN pip3 install --no-cache-dir jupyterlab \
 # Expose port for Jupyter
 EXPOSE 8888
 
-# Default command: start Jupyter
+# Default command: start Jupyter ds
 CMD ["jupyter-lab", "--allow-root", "--NotebookApp.token=", "--ip=0.0.0.0", "--NotebookApp.base_url=/notebook/"]
