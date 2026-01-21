@@ -1,0 +1,71 @@
+person
+worker
+pedestrian
+cyclist
+motorcyclist
+helmet
+hard hat
+reflective vest
+face mask
+backpack
+bicycle
+motorcycle
+scooter
+pmv
+pmd
+car
+taxi
+van
+pickup truck
+minibus
+bus
+truck
+box truck
+flatbed truck
+tanker truck
+container truck
+trailer
+tow truck
+ambulance
+fire truck
+police car
+maintenance vehicle
+traffic light
+pedestrian signal
+traffic sign
+speed limit sign
+no entry sign
+stop sign
+yield sign
+direction sign
+gantry sign
+variable message sign
+road cone
+bollard
+barrier
+jersey barrier
+guardrail
+fence
+lane marking
+zebra crossing
+road shoulder
+kerb
+umbrella
+luggage
+suitcase
+box
+cart
+stroller
+smoke
+fire
+debris
+fallen tree
+spill
+puddle
+flooding
+accident
+crashed vehicle
+stopped vehicle
+dog
+cat
+bird
